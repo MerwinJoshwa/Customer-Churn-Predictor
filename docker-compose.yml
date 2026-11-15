@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: churn_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-churn_db}
+      MYSQL_USER: ${MYSQL_USER:-churn_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-churn_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER:-churn_user}", "-p${MYSQL_PASSWORD:-churn_password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - churn_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: churn_backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-churn_user}:${MYSQL_PASSWORD:-churn_password}@mysql:3306/${MYSQL_DATABASE:-churn_db}
+      SECRET_KEY: ${SECRET_KEY:-09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7}
+      FALLBACK_SQLITE: "false"
+      MODEL_VERSION: ${MODEL_VERSION:-v1.0.0}
+    volumes:
+      - ./backend/artifacts:/app/artifacts
+      - ./dataset:/app/dataset
+    networks:
+      - churn_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: churn_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - churn_network
+
+volumes:
+  mysql_data:
+
+networks:
+  churn_network:
+    driver: bridge

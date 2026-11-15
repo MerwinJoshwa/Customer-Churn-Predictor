@@ -1,0 +1,103 @@
+{
+  "version": "v1.0.0",
+  "model_name": "Random Forest Classifier",
+  "metrics": {
+    "accuracy": 0.7579843860894251,
+    "precision_score": 0.5302752293577981,
+    "recall_score": 0.7727272727272727,
+    "f1_score": 0.6289445048966268,
+    "roc_auc": 0.8425094939161435,
+    "confusion_matrix": [
+      [
+        779,
+        256
+      ],
+      [
+        85,
+        289
+      ]
+    ]
+  },
+  "feature_importance": [
+    {
+      "feature": "tenure",
+      "importance": 0.13121
+    },
+    {
+      "feature": "Contract_Month-to-month",
+      "importance": 0.11352
+    },
+    {
+      "feature": "TotalCharges",
+      "importance": 0.09344
+    },
+    {
+      "feature": "Contract_Two year",
+      "importance": 0.07243
+    },
+    {
+      "feature": "MonthlyCharges",
+      "importance": 0.06998
+    },
+    {
+      "feature": "OnlineSecurity_No",
+      "importance": 0.05524
+    },
+    {
+      "feature": "InternetService_Fiber optic",
+      "importance": 0.04463
+    },
+    {
+      "feature": "TechSupport_No",
+      "importance": 0.04301
+    },
+    {
+      "feature": "PaymentMethod_Electronic check",
+      "importance": 0.03963
+    },
+    {
+      "feature": "Contract_One year",
+      "importance": 0.02235
+    },
+    {
+      "feature": "OnlineBackup_No",
+      "importance": 0.02188
+    },
+    {
+      "feature": "InternetService_DSL",
+      "importance": 0.01908
+    },
+    {
+      "feature": "OnlineSecurity_Yes",
+      "importance": 0.01423
+    },
+    {
+      "feature": "PaperlessBilling_No",
+      "importance": 0.01227
+    },
+    {
+      "feature": "PaperlessBilling_Yes",
+      "importance": 0.01209
+    },
+    {
+      "feature": "StreamingTV_No internet service",
+      "importance": 0.01173
+    },
+    {
+      "feature": "TechSupport_Yes",
+      "importance": 0.01157
+    },
+    {
+      "feature": "DeviceProtection_No",
+      "importance": 0.01084
+    },
+    {
+      "feature": "TechSupport_No internet service",
+      "importance": 0.0097
+    },
+    {
+      "feature": "Dependents_No",
+      "importance": 0.00962
+    }
+  ]
+}
